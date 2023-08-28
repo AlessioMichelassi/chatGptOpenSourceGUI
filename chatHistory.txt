@@ -1,0 +1,10 @@
+user:Ciao chat ci sei? Funziona il mio programmino?
+system:Ciao! Sì, sono qui. Sarei felice di aiutarti a verificare se il tuo programma funziona correttamente. Puoi fornirmi maggiori dettagli sul programma e sulle sue funzionalità?
+user:dfgdfg
+system:I'm sorry, but I don't understand what you're asking. Can you please provide more information or clarify your question?
+user:sdfsdfsdf
+system:I'm sorry, but I don't understand what you're trying to say. Can you please provide more information or clarify your question?
+user:sdfsdf
+system:I'm sorry, but I don't understand what you're trying to say. Can you please provide more information or ask a specific question?
+user:ciao chat! 
+system:Ciao! Come posso aiutarti oggi?
