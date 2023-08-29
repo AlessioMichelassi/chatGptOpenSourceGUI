@@ -26,6 +26,36 @@ class ChatBox(QWidget):
     chatColorBg = QColor(70, 200, 10)
 
     questionComing = pyqtSignal(str, name="question coming")
+    isListenEnabled = pyqtSignal(bool, name="is listen enabled")
+    grabAudioFromMic = pyqtSignal(name="grab audio from mic")
+
+    """
+    ITA:
+        Questa classe è il widget che contiene la chat grafica. i pulsanti,
+        emettono segnali che possono essere catturati dal mainWidget.
+        Se si scrive qualcosa nella questionBox e si preme invio, viene emesso
+        il segnale questionComing che contiene la domanda scritta nella questionBox così
+        come se viene premuto invio.
+        
+        Se la questionBox è vuota e si preme il pulsante send, viene emesso il segnale
+        grabAudioFromMic che dice al mainWidget di catturare l'audio dal microfono.
+        
+        Se si preme il pulsante listen, viene emesso il segnale isListenEnabled che dice
+        al mainWidget di abilitare o disabilitare la funzione di ascolto del messaggio ricevuto.
+        
+    ENG:
+        This class is the widget that contains the graphic chat. the buttons,
+        emit signals that can be captured by the mainWidget.
+        If you write something in the questionBox and press enter, the signal is emitted
+        questionComing that contains the question written in the questionBox as well
+        as if you press enter.
+        
+        If the questionBox is empty and you press the send button, the signal is emitted
+        grabAudioFromMic that tells the mainWidget to capture the audio from the microphone.
+        
+        If you press the listen button, the signal is emitted isListenEnabled that says
+        to the mainWidget to enable or disable the function of listening to the received message.
+    """
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -68,6 +98,7 @@ class ChatBox(QWidget):
     def initConnections(self):
         self.questionBox.returnPressed.connect(self.addQuestion)
         self.btnSend.clicked.connect(self.getQuestionFromQuestionBox)
+        self.btnListen.toggled.connect(self.listen)
 
     def addQuestion(self, question):
         self.addMessage("You", question, self.userColorBg)
@@ -121,9 +152,21 @@ class ChatBox(QWidget):
 
     def getQuestionFromQuestionBox(self):
         question = self.questionBox.toPlainText()
-        self.addQuestion(question)
-        self.questionBox.clear()
+        if question:
+            self.addQuestion(question)
+            self.questionBox.clear()
+        else:
+            self.grabAudioFromMic.emit()
 
+    def listen(self, isListen):
+        self.isListenEnabled = isListen
+        if isListen:
+            self.btnListen.setText("Stop")
+            self.isListenEnabled.emit(True)
+        else:
+            self.btnListen.setText("Listen")
+            self.isListenEnabled.emit(False)
+        self.btnListen.update()
 
 # this is for test the widget
 if __name__ == "__main__":

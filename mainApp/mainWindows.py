@@ -4,20 +4,24 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 from mainApp.AI.openAI.example import openAI
+from mainApp.widgets.CommonMenu.mainMenu import MainMenuBar
 from mainApp.widgets.chatWidget.chatBoxColorText import ChatBox
 
 
 class mainWindow(QMainWindow):
     chatBox: ChatBox
-    rectangle = QRect(0, 0, 800, 600)
+    mainMenu: MainMenuBar
+    rectangle = QRect(0, 0, 800, 800)
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.initMenu()
         self.chatGpt = openAI()
         self.initUI()
         self.initStyle()
         self.initGeometry()
         self.initConnections()
+
 
     def initUI(self):
         mainWidget = QWidget(self)
@@ -48,6 +52,10 @@ class mainWindow(QMainWindow):
 
     def contextMenuEvent(self, event) -> None:
         contextMenu = QMenu(self)
+
+    def initMenu(self):
+        self.mainMenu = MainMenuBar(self)
+
 
     def initStartingValues(self):
         pass
